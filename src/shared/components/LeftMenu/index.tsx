@@ -2,6 +2,7 @@ import { Avatar, Divider, Drawer, Icon, List, ListItemButton, ListItemIcon, List
 import { Box } from '@mui/system'
 import { ReactNode } from 'react'
 import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom'
+import { useAppThemeContext } from '../../contexts'
 import { useDrawerContext } from '../../contexts/DrawerContext'
 
 interface LeftMenuProvider {
@@ -27,7 +28,7 @@ const ListItemLink: React.FC<IListItemProps> = ({ to, label, icon, onClick }) =>
   }
 
   return (
-    <ListItemButton selected={match} onClick={handleClick}>
+    <ListItemButton selected={!!match} onClick={handleClick}>
       <ListItemIcon>
         <Icon>{icon}</Icon>
       </ListItemIcon>
@@ -41,6 +42,7 @@ export function LeftMenu({ children }: LeftMenuProvider) {
   const smDown = useMediaQuery(theme.breakpoints.down('sm'))
 
   const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext()
+  const { toggleTheme } = useAppThemeContext()
 
   return (
     <>
@@ -63,6 +65,17 @@ export function LeftMenu({ children }: LeftMenuProvider) {
                   label={drawerOption.label}
                   onClick={smDown ? toggleDrawerOpen : undefined} />
               ))}
+            </List>
+          </Box>
+
+          <Box>
+            <List component='nav'>
+              <ListItemButton onClick={toggleTheme}>
+                <ListItemIcon>
+                  <Icon>dark_mode</Icon>
+                </ListItemIcon>
+                <ListItemText primary='Alternar tema' />
+              </ListItemButton>
             </List>
           </Box>
 
