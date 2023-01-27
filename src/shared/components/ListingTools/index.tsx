@@ -1,5 +1,7 @@
 import { Box, Button, TextField, Paper, useTheme, Icon } from '@mui/material'
 
+import { Environment } from '../../environments'
+
 interface IListingToolsProps {
   searchText?: string
   showInputSearch?: boolean
@@ -34,7 +36,7 @@ export function ListingTools({
           size='small'
           value={searchText}
           onChange={(e) => onChangeSearchText?.(e.target.value)}
-          placeholder='Pesquisar...'
+          placeholder={Environment.SEARCH_INPUT}
         />
       )}
 
