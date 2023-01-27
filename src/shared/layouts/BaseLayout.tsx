@@ -6,10 +6,10 @@ import { useDrawerContext } from '../contexts/DrawerContext'
 interface IBaseLayoutProps {
   children: ReactNode
   title: string
-  listingTools?: ReactNode
+  toolbar?: ReactNode
 }
 
-export const BaseLayout: React.FC<IBaseLayoutProps> = ({ children, title, listingTools }: IBaseLayoutProps) => {
+export const BaseLayout: React.FC<IBaseLayoutProps> = ({ children, title, toolbar }: IBaseLayoutProps) => {
   const theme = useTheme()
   const smDown = useMediaQuery(theme.breakpoints.down('sm'))
   const mdDown = useMediaQuery(theme.breakpoints.down('md'))
@@ -17,7 +17,13 @@ export const BaseLayout: React.FC<IBaseLayoutProps> = ({ children, title, listin
   const { toggleDrawerOpen } = useDrawerContext()
   return (
     <Box height='100%' display='flex' flexDirection='column' gap={1}>
-      <Box padding={1} display='flex' alignItems='center' gap={1} height={theme.spacing(smDown ? 4 : mdDown ? 8 : 12)}>
+      <Box
+        padding={1}
+        display='flex'
+        alignItems='center'
+        gap={1}
+        height={theme.spacing(smDown ? 4 : mdDown ? 8 : 12)}
+      >
         {smDown && (
           <IconButton onClick={toggleDrawerOpen}>
             <Icon>menu</Icon>
@@ -33,9 +39,9 @@ export const BaseLayout: React.FC<IBaseLayoutProps> = ({ children, title, listin
         </Typography>
       </Box >
 
-      {listingTools && (
+      {toolbar && (
         <Box>
-          {listingTools}
+          {toolbar}
         </Box >
       )}
 
