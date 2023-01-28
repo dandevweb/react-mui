@@ -1,6 +1,6 @@
 import { BrowserRouter } from 'react-router-dom'
 import { AppRoutes } from './routes'
-import { LeftMenu } from './shared/components/LeftMenu'
+import { Sidebar } from './shared/components/Sidebar'
 import { DrawerProvider } from './shared/contexts/DrawerContext'
 import { AppThemeProvider } from './shared/contexts/ThemeContext'
 
@@ -10,9 +10,9 @@ export function App() {
     <AppThemeProvider>
       <DrawerProvider>
         <BrowserRouter>
-          <LeftMenu>
+          <Sidebar>
             <AppRoutes />
-          </LeftMenu>
+          </Sidebar>
         </BrowserRouter>
       </DrawerProvider>
     </AppThemeProvider>

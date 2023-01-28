@@ -2,7 +2,9 @@
   "people": [
     {
       "id": 1,
-      "name": "Danilo Augusto"
+      "name": "Danilo Augusto",
+      "email": "dandevweb@gmail.com",
+      "cityId": 1
     }
   ]
 }

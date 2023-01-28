@@ -5,7 +5,7 @@ import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom'
 import { useAppThemeContext } from '../../contexts'
 import { useDrawerContext } from '../../contexts/DrawerContext'
 
-interface LeftMenuProvider {
+interface SidebarProvider {
   children: ReactNode
 }
 
@@ -16,7 +16,7 @@ interface IListItemProps {
   onClick: (() => void) | undefined
 }
 
-const ListItemLink: React.FC<IListItemProps> = ({ to, label, icon, onClick }) => {
+export function ListItemLink({ to, label, icon, onClick }: IListItemProps) {
   const navigate = useNavigate()
 
   const resolvedPath = useResolvedPath(to)
@@ -37,7 +37,7 @@ const ListItemLink: React.FC<IListItemProps> = ({ to, label, icon, onClick }) =>
   )
 }
 
-export function LeftMenu({ children }: LeftMenuProvider) {
+export function Sidebar({ children }: SidebarProvider) {
   const theme = useTheme()
   const smDown = useMediaQuery(theme.breakpoints.down('sm'))
 
