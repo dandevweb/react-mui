@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { Dashboard } from '../pages/dashboard/Dashboard'
 import { useDrawerContext } from '../shared/contexts/DrawerContext'
 import PeopleList from '../pages/people/index'
+import { PeopleDetails } from '../pages/people/details'
 
 export function AppRoutes() {
   const { setDrawerOptions } = useDrawerContext()
@@ -27,7 +28,7 @@ export function AppRoutes() {
       <Route path="/pagina-inicial" element={<Dashboard />} />
 
       <Route path="/pessoas" element={<PeopleList />} />
-      <Route path="/pessoas/detalhe/:id" element={<p>Detalhe</p>} />
+      <Route path="/pessoas/detalhe/:id" element={<PeopleDetails />} />
 
       <Route path="*" element={<Navigate to="/pagina-inicial" />} />
     </Routes>

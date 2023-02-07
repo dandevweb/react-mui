@@ -69,6 +69,7 @@ export default function PeopleList() {
           showInputSearch
           searchText={search}
           newTextButton="Nova"
+          onClickNew={() => navigate('/pessoas/detalhe/nova')}
           onChangeSearchText={text => setSearchParams({ search: text, page: '1' }, { replace: true })}
         />
       }
