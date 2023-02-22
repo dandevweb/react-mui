@@ -1,9 +1,10 @@
 import { Grid, LinearProgress, Paper, Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import * as yup from 'yup'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { DetailTools } from '../../shared/components/DetailTools'
-import { VForm, VTextField, useVForm } from '../../shared/forms'
+import { VForm, VTextField, useVForm, IVFormIErrors } from '../../shared/forms'
 import { BaseLayout } from '../../shared/layouts/BaseLayout'
 import { PeopleService } from '../../shared/services/people/PeopleService'
 
@@ -12,6 +13,12 @@ interface IFormData {
   cityId: number
   name: string
 }
+
+const formValidationSchema: yup.Schema<IFormData> = yup.object().shape({
+  name: yup.string().required().min(3),
+  email: yup.string().required().email(),
+  cityId: yup.number().required(),
+})
 
 export function PeopleDetails() {
   const { id = 'nova' } = useParams<'id'>()
@@ -46,35 +53,50 @@ export function PeopleDetails() {
   }, [id])
 
   const handleSave = (data: IFormData) => {
-    setLoading(true)
-    if (id === 'nova') {
-      PeopleService.store(data)
-        .then((result) => {
-          setLoading(false)
-          if (result instanceof Error) {
-            alert(result.message)
-          } else {
-            if (isSaveAndBack()) {
-              navigate('/pessoas')
-            } else {
-              navigate(`/pessoas/detalhe/${result}`)
-            }
-          }
-        })
-    } else {
-      PeopleService.update(Number(id), { id: Number(id), ...data })
-        .then((result) => {
-          setLoading(false)
+    formValidationSchema
+      .validate(data, { abortEarly: false })
+      .then((validatedData) => {
+        setLoading(true)
+        if (id === 'nova') {
+          PeopleService.store(validatedData)
+            .then((result) => {
+              setLoading(false)
+              if (result instanceof Error) {
+                alert(result.message)
+              } else {
+                if (isSaveAndBack()) {
+                  navigate('/pessoas')
+                } else {
+                  navigate(`/pessoas/detalhe/${result}`)
+                }
+              }
+            })
+        } else {
+          PeopleService.update(Number(id), { id: Number(id), ...validatedData })
+            .then((result) => {
+              setLoading(false)
 
-          if (result instanceof Error) {
-            alert(result.message)
-          } else {
-            if (isSaveAndBack()) {
-              navigate('/pessoas')
-            }
-          }
+              if (result instanceof Error) {
+                alert(result.message)
+              } else {
+                if (isSaveAndBack()) {
+                  navigate('/pessoas')
+                }
+              }
+            })
+        }
+      })
+      .catch((errors: yup.ValidationError) => {
+        const validationErrors: IVFormIErrors = {}
+
+        errors.inner.forEach(error => {
+          if (!error.path) return
+          validationErrors[error.path] = error.message
         })
-    }
+        formRef.current?.setErrors(validationErrors)
+      })
+
+
   }
 
   const handleDelete = (id: number) => {

@@ -1,4 +1,7 @@
 import { BrowserRouter } from 'react-router-dom'
+
+import './shared/forms/ValidationTranslate/index'
+
 import { AppRoutes } from './routes'
 import { Sidebar } from './shared/components/Sidebar'
 import { DrawerProvider } from './shared/contexts/DrawerContext'
