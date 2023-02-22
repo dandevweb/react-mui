@@ -7,6 +7,7 @@ import { DetailTools } from '../../shared/components/DetailTools'
 import { VForm, VTextField, useVForm, IVFormIErrors } from '../../shared/forms'
 import { BaseLayout } from '../../shared/layouts/BaseLayout'
 import { PeopleService } from '../../shared/services/people/PeopleService'
+import { CityAutoComplete } from './components/CityAutoComplete'
 
 interface IFormData {
   email: string
@@ -24,7 +25,6 @@ export function PeopleDetails() {
   const { id = 'nova' } = useParams<'id'>()
   const navigate = useNavigate()
   const { formRef, save, saveAndBack, isSaveAndBack } = useVForm()
-  console.log(isSaveAndBack())
 
   const [loading, setLoading] = useState(false)
   const [name, setName] = useState('')
@@ -46,7 +46,7 @@ export function PeopleDetails() {
     } else {
       formRef.current?.setData({
         email: '',
-        cityId: '',
+        cityId: undefined,
         name: '',
       })
     }
@@ -171,12 +171,7 @@ export function PeopleDetails() {
 
             <Grid container item direction='row' spacing={2}>
               <Grid item xs={12} sm={12} md={5} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  label='Cidade'
-                  disabled={loading}
-                  name='cityId'
-                />
+                <CityAutoComplete isExternalLoading={loading} />
               </Grid>
             </Grid>
 

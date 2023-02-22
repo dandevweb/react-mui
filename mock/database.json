@@ -4,7 +4,7 @@
       "id": 4,
       "name": "Danilo Augusto",
       "email": "dandevweb@gmail.com",
-      "cityId": 1
+      "cityId": 3
     },
     {
       "id": 5,
@@ -28,7 +28,7 @@
       "id": 9,
       "name": "Danilo Augusto",
       "email": "dandevweb@gmail.com",
-      "cityId": 1
+      "cityId": 5
     },
     {
       "id": 10,
@@ -89,6 +89,18 @@
     {
       "id": 4,
       "name": "Itaquaquecetuba"
+    },
+    {
+      "name": "Penha",
+      "id": 5
+    },
+    {
+      "name": "Suzano",
+      "id": 6
+    },
+    {
+      "name": "Poá",
+      "id": 7
     }
   ]
 }

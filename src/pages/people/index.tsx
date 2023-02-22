@@ -36,7 +36,6 @@ export default function PeopleList() {
             alert(result.message)
             return
           }
-          console.log(result)
           setRows(result.data)
           setAmount(result.amount)
         })
