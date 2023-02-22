@@ -6,21 +6,17 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { DetailTools } from '../../shared/components/DetailTools'
 import { VForm, VTextField, useVForm, IVFormIErrors } from '../../shared/forms'
 import { BaseLayout } from '../../shared/layouts/BaseLayout'
-import { PeopleService } from '../../shared/services/people/PeopleService'
+import { CityService } from '../../shared/services/city/CityService'
 
 interface IFormData {
-  email: string
-  cityId: number
   name: string
 }
 
 const formValidationSchema: yup.Schema<IFormData> = yup.object().shape({
   name: yup.string().required().min(3),
-  email: yup.string().required().email(),
-  cityId: yup.number().required(),
 })
 
-export function PeopleDetails() {
+export function CityDetails() {
   const { id = 'nova' } = useParams<'id'>()
   const navigate = useNavigate()
   const { formRef, save, saveAndBack, isSaveAndBack } = useVForm()
@@ -32,12 +28,12 @@ export function PeopleDetails() {
   useEffect(() => {
     if (id !== 'nova') {
       setLoading(true)
-      PeopleService.show(Number(id))
+      CityService.show(Number(id))
         .then((result) => {
           setLoading(false)
           if (result instanceof Error) {
             alert(result.message)
-            navigate('/pessoas')
+            navigate('/cidades')
           } else {
             setName(result.name)
             formRef.current?.setData(result)
@@ -45,8 +41,6 @@ export function PeopleDetails() {
         })
     } else {
       formRef.current?.setData({
-        email: '',
-        cityId: '',
         name: '',
       })
     }
@@ -58,21 +52,21 @@ export function PeopleDetails() {
       .then((validatedData) => {
         setLoading(true)
         if (id === 'nova') {
-          PeopleService.store(validatedData)
+          CityService.store(validatedData)
             .then((result) => {
               setLoading(false)
               if (result instanceof Error) {
                 alert(result.message)
               } else {
                 if (isSaveAndBack()) {
-                  navigate('/pessoas')
+                  navigate('/cidades')
                 } else {
-                  navigate(`/pessoas/detalhe/${result}`)
+                  navigate(`/cidades/detalhe/${result}`)
                 }
               }
             })
         } else {
-          PeopleService.update(Number(id), { id: Number(id), ...validatedData })
+          CityService.update(Number(id), { id: Number(id), ...validatedData })
             .then((result) => {
               setLoading(false)
 
@@ -80,7 +74,7 @@ export function PeopleDetails() {
                 alert(result.message)
               } else {
                 if (isSaveAndBack()) {
-                  navigate('/pessoas')
+                  navigate('/cidades')
                 }
               }
             })
@@ -101,13 +95,13 @@ export function PeopleDetails() {
 
   const handleDelete = (id: number) => {
     if (confirm('Realmente deseja apagar')) {
-      PeopleService.deleteById(id)
+      CityService.deleteById(id)
         .then(result => {
           if (result instanceof Error) {
             alert(result.message)
           } else {
             alert('registro apagado com sucesso')
-            navigate('/pessoas')
+            navigate('/cidades')
           }
         })
     }
@@ -115,7 +109,7 @@ export function PeopleDetails() {
 
   return (
     <BaseLayout
-      title={id === 'nova' ? 'Nova pessoa' : name}
+      title={id === 'nova' ? 'Nova cidade' : name}
       toolbar={
         <DetailTools
           newTextButton='Nova'
@@ -126,8 +120,8 @@ export function PeopleDetails() {
           onClickSave={save}
           onClickSaveBack={saveAndBack}
           onClickDelete={() => handleDelete(Number(id))}
-          onClickBack={() => navigate('/pessoas')}
-          onClickNew={() => navigate('/pessoas/detalhe/nova')}
+          onClickBack={() => navigate('/cidades')}
+          onClickNew={() => navigate('/cidades/detalhe/nova')}
         />
       }
     >
@@ -150,32 +144,10 @@ export function PeopleDetails() {
               <Grid item xs={12} sm={12} md={5} lg={4} xl={2}>
                 <VTextField
                   fullWidth
-                  label='Nome Completo'
+                  label='Nome'
                   disabled={loading}
                   name='name'
                   onChange={e => setName(e.target.value)}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container item direction='row' spacing={2}>
-              <Grid item xs={12} sm={12} md={5} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  label='E-mail'
-                  disabled={loading}
-                  name='email'
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container item direction='row' spacing={2}>
-              <Grid item xs={12} sm={12} md={5} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  label='Cidade'
-                  disabled={loading}
-                  name='cityId'
                 />
               </Grid>
             </Grid>
@@ -184,7 +156,6 @@ export function PeopleDetails() {
 
         </Box>
       </VForm>
-
     </BaseLayout>
   )
 }

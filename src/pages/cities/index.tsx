@@ -5,14 +5,14 @@ import { ListingTools } from '../../shared/components/ListingTools'
 import { Environment } from '../../shared/environments'
 import { useDebounce } from '../../shared/hooks/UseDebounce'
 import { BaseLayout } from '../../shared/layouts/BaseLayout'
-import { IPeopleList, PeopleService } from '../../shared/services/people/PeopleService'
+import { ICityList, CityService } from '../../shared/services/city/CityService'
 
-export default function PeopleList() {
+export default function CityList() {
   const [searchParams, setSearchParams] = useSearchParams()
   const { debounce } = useDebounce()
   const navigate = useNavigate()
 
-  const [rows, setRows] = useState<IPeopleList[]>([])
+  const [rows, setRows] = useState<ICityList[]>([])
   const [amount, setAmount] = useState(0)
   const [loading, setLoading] = useState(true)
 
@@ -28,7 +28,7 @@ export default function PeopleList() {
     setLoading(true)
 
     debounce(() => {
-      PeopleService.index(page, search)
+      CityService.index(page, search)
         .then((result) => {
           setLoading(false)
 
@@ -46,7 +46,7 @@ export default function PeopleList() {
 
   const handleDelete = (id: number) => {
     if (confirm('Realmente deseja apagar')) {
-      PeopleService.deleteById(id)
+      CityService.deleteById(id)
         .then(result => {
           if (result instanceof Error) {
             alert(result.message)
@@ -55,7 +55,7 @@ export default function PeopleList() {
               ...oldRows.filter(oldRow => oldRow.id !== id)
             ]
             )
-            alert('registro apagado com sucesso')
+            alert('Registro apagado com sucesso')
           }
         })
     }
@@ -69,7 +69,7 @@ export default function PeopleList() {
           showInputSearch
           searchText={search}
           newTextButton="Nova"
-          onClickNew={() => navigate('/pessoas/detalhe/nova')}
+          onClickNew={() => navigate('/cidades/detalhe/nova')}
           onChangeSearchText={text => setSearchParams({ search: text, page: '1' }, { replace: true })}
         />
       }
@@ -81,7 +81,6 @@ export default function PeopleList() {
             <TableRow>
               <TableCell width={100}>Ações</TableCell>
               <TableCell>Nome</TableCell>
-              <TableCell>E-mail</TableCell>
             </TableRow>
           </TableHead>
 
@@ -92,12 +91,11 @@ export default function PeopleList() {
                   <IconButton size='small' onClick={() => handleDelete(row.id)}>
                     <Icon>delete</Icon>
                   </IconButton>
-                  <IconButton size='small' onClick={() => navigate(`/pessoas/detalhe/${row.id}`)}>
+                  <IconButton size='small' onClick={() => navigate(`/cidades/detalhe/${row.id}`)}>
                     <Icon>edit</Icon>
                   </IconButton>
                 </TableCell>
                 <TableCell>{row.name}</TableCell>
-                <TableCell>{row.email}</TableCell>
               </TableRow>
             ))}
           </TableBody>

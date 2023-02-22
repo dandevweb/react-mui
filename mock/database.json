@@ -72,5 +72,23 @@
       "email": "18/09/1982",
       "cityId": "(65) 3634-8139"
     }
+  ],
+  "cities": [
+    {
+      "id": 1,
+      "name": "São José dos Campos"
+    },
+    {
+      "name": "Guararema",
+      "id": 2
+    },
+    {
+      "name": "Mogi das Cruzes",
+      "id": 3
+    },
+    {
+      "id": 4,
+      "name": "Itaquaquecetuba"
+    }
   ]
 }
